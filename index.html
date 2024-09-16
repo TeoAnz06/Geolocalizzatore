@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Geolocalizzazione</title>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+        <script>
+            let mappa;
+            function getCoordinate(){
+                if(!navigator.geolocation) return;
+                navigator.geolocation.getCurrentPosition(getPosition);
+                let opzioni = {
+                    zoom: 1,
+                    center: new google.maps.LatLng(0, 0),
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                };
+                mappa = new google.maps.Map(document.getElementById("boxMappa"), opzioni);
+            }
+
+            function getPosition(position){
+                let latitude = position.coords.latitude;
+                let longitude = position.coords.longitude;
+                // console.log(latitude);
+                // console.log(longitude);
+                
+                let posizione = new google.maps.LatLng(latitude, longitude);
+                let marker = new google.maps.Marker({
+                    position: posizione,
+                    map: mappa,
+                    title: "La tua posizione" 
+                });
+            }
+        </script>
+    </head>
+    <body onload="getCoordinate()">
+        <div id="boxMappa" style="width: 500px; height: 500px; border: solid 1px black"></div>
+    </body>
+</html>
